@@ -10,6 +10,9 @@ import mongoSanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
 import hpp from "hpp";
 import AppError from "./utils/appError";
+import { auth, requiredScopes } from "express-oauth2-jwt-bearer";
+
+import projectRoutes from "./routes/projectRoutes";
 
 dotenv.config({ path: "./config.env" });
 
@@ -59,7 +62,24 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Authorization middleware setup
+const checkJwt = auth({
+  audience: process.env.AUTH0_AUDIENCE,
+  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+});
+
+const checkScopes = requiredScopes("read:messages");
+
+app.get("/api/private-scoped", checkJwt, checkScopes, (req, res) => {
+  res.json({
+    message:
+      "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this.",
+  });
+});
+
 // ROUTES
+
+app.use("/api/v1/projects", projectRoutes);
 
 // 404 route
 app.all("*", (req, res, next) => {

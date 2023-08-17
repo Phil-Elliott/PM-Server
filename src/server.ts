@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { auth, requiredScopes } from "express-oauth2-jwt-bearer";
 import path from "path";
 
 dotenv.config({ path: path.resolve(__dirname, "../config.env") });
@@ -29,21 +28,6 @@ mongoose
   });
 
 const PORT: number = +process.env.PORT! || 3000;
-
-// Authorization middleware setup
-const checkJwt = auth({
-  audience: process.env.AUTH0_AUDIENCE!,
-  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL!,
-});
-
-const checkScopes = requiredScopes("read:messages");
-
-app.get("/api/private-scoped", checkJwt, checkScopes, (req, res) => {
-  res.json({
-    message:
-      "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this.",
-  });
-});
 
 const server = app.listen(PORT, (error?: any) => {
   if (error) {
