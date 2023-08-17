@@ -75,3 +75,13 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 export default app;
+
+/*
+user - 0 auth
+projects
+Sections
+Tasks
+Comments
+userData(pic etc)
+
+*/
