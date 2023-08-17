@@ -13,6 +13,7 @@ import AppError from "./utils/appError";
 import { auth, requiredScopes } from "express-oauth2-jwt-bearer";
 
 import projectRoutes from "./routes/projectRoutes";
+import sectionsRoutes from "./routes/sectionsRoutes";
 
 dotenv.config({ path: "./config.env" });
 
@@ -80,6 +81,7 @@ app.get("/api/private-scoped", checkJwt, checkScopes, (req, res) => {
 // ROUTES
 
 app.use("/api/v1/projects", projectRoutes);
+app.use("/api/v1/sections", sectionsRoutes);
 
 // 404 route
 app.all("*", (req, res, next) => {

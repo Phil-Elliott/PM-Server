@@ -3,9 +3,6 @@ import * as projectController from "../controllers/projectController";
 
 const router = express.Router();
 
-// Protect all routes after this middleware (for authenticated users only, for example)
-// router.use(protect);
-
 router
   .route("/")
   .get(projectController.getAllProjects) // Fetch all projects
