@@ -1,6 +1,19 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Schema, Model } from "mongoose";
 
-const taskSchema = new mongoose.Schema({
+export interface ITask extends Document {
+  title: string;
+  description: string;
+  priority: string;
+  due: Date;
+  project: mongoose.Types.ObjectId;
+  section: mongoose.Types.ObjectId;
+  comments: mongoose.Types.ObjectId[];
+  assigned_users: mongoose.Types.ObjectId[];
+  watching_users: mongoose.Types.ObjectId[];
+  order: number;
+}
+
+const taskSchema = new Schema({
   title: {
     type: String,
     required: [true, "A task must have a title"],
@@ -21,29 +34,29 @@ const taskSchema = new mongoose.Schema({
   },
   due: Date,
   project: {
-    type: mongoose.Schema.ObjectId,
+    type: Schema.ObjectId,
     ref: "Project",
     required: [true, "Task must belong to a Project."],
   },
   section: {
-    type: mongoose.Schema.ObjectId,
+    type: Schema.ObjectId,
     ref: "Section",
   },
   comments: [
     {
-      type: mongoose.Schema.ObjectId,
+      type: Schema.ObjectId,
       ref: "Comment",
     },
   ],
   assigned_users: [
     {
-      type: mongoose.Schema.ObjectId,
+      type: Schema.ObjectId,
       ref: "User",
     },
   ],
   watching_users: [
     {
-      type: mongoose.Schema.ObjectId,
+      type: Schema.ObjectId,
       ref: "User",
     },
   ],
@@ -63,6 +76,5 @@ taskSchema.virtual("watchingUsersCount").get(function () {
   return this.watching_users.length;
 });
 
-const Task = mongoose.model("Task", taskSchema);
-
+const Task = (Model<ITask> = mongoose.model<ITask>("Task", taskSchema));
 export default Task;

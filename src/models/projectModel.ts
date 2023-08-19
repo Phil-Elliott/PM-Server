@@ -1,6 +1,16 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Schema, Model } from "mongoose";
 
-const projectSchema = new mongoose.Schema({
+export interface IProject extends Document {
+  title: string;
+  background: string;
+  tasks: mongoose.Types.ObjectId[];
+  sections: mongoose.Types.ObjectId[];
+  comments: mongoose.Types.ObjectId[];
+  users: mongoose.Types.ObjectId[];
+  ordered_sections: mongoose.Types.ObjectId[];
+}
+
+const projectSchema = new Schema({
   title: {
     type: String,
     required: [true, "A project must have a title"],
@@ -17,35 +27,39 @@ const projectSchema = new mongoose.Schema({
   },
   tasks: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Task",
     },
   ],
   sections: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Section",
     },
   ],
   comments: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Comment",
     },
   ],
   users: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
     },
   ],
   ordered_sections: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Section",
     },
   ],
 });
 
-const Project = mongoose.model("Project", projectSchema);
+const Project = (Model<IProject> = mongoose.model<IProject>(
+  "Project",
+  projectSchema
+));
+
 export default Project;
