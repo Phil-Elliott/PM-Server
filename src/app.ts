@@ -10,7 +10,6 @@ import mongoSanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
 import hpp from "hpp";
 import AppError from "./utils/appError";
-import { auth, requiredScopes } from "express-oauth2-jwt-bearer";
 
 import projectRoutes from "./routes/projectRoutes";
 import sectionsRoutes from "./routes/sectionsRoutes";
@@ -65,21 +64,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Authorization middleware setup
-const checkJwt = auth({
-  audience: process.env.AUTH0_AUDIENCE,
-  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
-});
-
-const checkScopes = requiredScopes("read:messages");
-
-app.get("/api/private-scoped", checkJwt, checkScopes, (req, res) => {
-  res.json({
-    message:
-      "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this.",
-  });
-});
-
 // ROUTES
 
 app.use("/api/v1/projects", projectRoutes);
@@ -109,5 +93,40 @@ Sections
 Tasks
 Comments
 userData(pic etc)
+
+
+- add custom auth from other app
+- use catchasync and other utils in controllers
+- test all of the controllers
+- add auth to all of the routes
+- figure out how to add profile stuff to the user
+- start connecting everything
+
+- add auth0 to other app or maybe just keep using it here
+
+
+
+
+
+
+
+import { auth, requiredScopes } from "express-oauth2-jwt-bearer";
+
+
+// Authorization middleware setup
+const checkJwt = auth({
+  audience: process.env.AUTH0_AUDIENCE,
+  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+});
+
+const checkScopes = requiredScopes("read:messages");
+
+app.get("/api/private-scoped", checkJwt, checkScopes, (req, res) => {
+  res.json({
+    message:
+      "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this.",
+  });
+});
+
 
 */

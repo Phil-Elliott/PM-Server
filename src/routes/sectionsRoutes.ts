@@ -11,7 +11,7 @@ router
 
 router
   .route("/:sectionId")
-  //   .get(sectionsController.getSectionById) // Get section by ID
+  .get(sectionsController.getSection) // Get section by ID
   .patch(sectionsController.updateSection) // Update section by ID
   .delete(sectionsController.deleteSection); // Delete section by ID
 
