@@ -8,7 +8,7 @@ import {
   updatePassword,
   protect,
   restrictTo,
-} from "../controllers/authController.js";
+} from "../controllers/authController";
 
 const router = express.Router();
 

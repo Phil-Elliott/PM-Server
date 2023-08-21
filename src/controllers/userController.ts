@@ -77,6 +77,7 @@ export const deleteMe = catchAsync(
 
 export const getMe = catchAsync(
   async (req: CustomRequest, res: Response, next: NextFunction) => {
+    console.log(req, "req");
     if (!req.user || !req.user.id) {
       return next(new AppError("User not authenticated", 401)); // or some other error handling
     }

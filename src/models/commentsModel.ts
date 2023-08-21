@@ -32,9 +32,9 @@ const commentSchema = new Schema({
   },
 });
 
-const Comment = (Model<IComment> = mongoose.model<IComment>(
+const Comment: Model<IComment> = mongoose.model<IComment>(
   "Comment",
   commentSchema
-));
+);
 
 export default Comment;

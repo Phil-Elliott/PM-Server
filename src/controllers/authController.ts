@@ -71,11 +71,7 @@ export const logout = (req: Request, res: Response): void => {
 };
 
 export const register = catchAsync(
-  async (
-    req: Request<{}, {}, AuthRequestBody>,
-    res: Response,
-    next: NextFunction
-  ) => {
+  async (req: any, res: Response, next: NextFunction) => {
     if (req.user) {
       logout(req, res);
     }
@@ -93,11 +89,7 @@ export const register = catchAsync(
 );
 
 export const login = catchAsync(
-  async (
-    req: Request<{}, {}, AuthRequestBody>,
-    res: Response,
-    next: NextFunction
-  ) => {
+  async (req: any, res: Response, next: NextFunction) => {
     if (req.user) {
       logout(req, res);
     }
@@ -119,12 +111,14 @@ export const login = catchAsync(
 );
 
 export const protect = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: any, res: Response, next: NextFunction) => {
     let token: string | undefined;
 
     if (req.cookies.jwt) {
       token = req.cookies.jwt;
     }
+
+    console.log(token, "token");
 
     if (!token) {
       return next(
@@ -138,7 +132,12 @@ export const protect = catchAsync(
       return next(new AppError("Invalid token", 401));
     }
 
+    console.log(decoded, "decoded");
+
     const freshUser = await User.findById(decoded.id);
+
+    console.log(freshUser, "freshUser");
+
     if (!freshUser || freshUser.changedPasswordAfter(decoded.iat)) {
       return next(new AppError("Token is invalid or has expired", 401));
     }
@@ -149,7 +148,7 @@ export const protect = catchAsync(
 );
 
 export const restrictTo = (...roles: string[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req: any, res: Response, next: NextFunction) => {
     if (!roles.includes(req.user.role)) {
       return next(
         new AppError("You do not have permission to perform this action", 403)
@@ -239,11 +238,7 @@ export const resetPassword = catchAsync(
 );
 
 export const updatePassword = catchAsync(
-  async (
-    req: Request<{}, {}, AuthRequestBody>,
-    res: Response,
-    next: NextFunction
-  ) => {
+  async (req: any, res: Response, next: NextFunction) => {
     if (!req.user || !req.user.id) {
       return next(new AppError("No user found", 401));
     }

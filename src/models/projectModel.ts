@@ -24,6 +24,7 @@ const projectSchema = new Schema({
   background: {
     type: String,
     trim: true,
+    required: [true, "A project must have a background"],
   },
   tasks: [
     {
@@ -47,6 +48,7 @@ const projectSchema = new Schema({
     {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: [true, "A project must be associated with at least one user"],
     },
   ],
   ordered_sections: [
@@ -57,9 +59,9 @@ const projectSchema = new Schema({
   ],
 });
 
-const Project = (Model<IProject> = mongoose.model<IProject>(
+const Project: Model<IProject> = mongoose.model<IProject>(
   "Project",
   projectSchema
-));
+);
 
 export default Project;

@@ -7,8 +7,8 @@ import {
   updateMe,
   deleteMe,
   getMe,
-} from "../controllers/userController.ts";
-import { protect, restrictTo } from "../controllers/authController.js";
+} from "../controllers/userController";
+import { protect, restrictTo } from "../controllers/authController";
 
 const router = express.Router();
 

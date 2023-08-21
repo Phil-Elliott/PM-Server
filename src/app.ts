@@ -15,6 +15,8 @@ import projectRoutes from "./routes/projectRoutes";
 import sectionsRoutes from "./routes/sectionsRoutes";
 import tasksRoutes from "./routes/tasksRoutes";
 import commentsRoutes from "./routes/commentsRoutes";
+import authRoutes from "./routes/authRoutes";
+import userRoutes from "./routes/userRoutes";
 
 dotenv.config({ path: "./config.env" });
 
@@ -58,7 +60,7 @@ app.use(cookieParser());
 
 // Enable CORS
 const corsOptions = {
-  origin: "http://localhost:3001",
+  origin: "http://localhost:5173",
   credentials: true,
 };
 
@@ -70,6 +72,8 @@ app.use("/api/v1/projects", projectRoutes);
 app.use("/api/v1/sections", sectionsRoutes);
 app.use("/api/v1/tasks", tasksRoutes);
 app.use("/api/v1/comments", commentsRoutes);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/users", userRoutes);
 
 // 404 route
 app.all("*", (req, res, next) => {
@@ -95,14 +99,15 @@ Comments
 userData(pic etc)
 
 
-- add custom auth from other app
-- use catchasync and other utils in controllers
-- test all of the controllers
-- add auth to all of the routes
+- try using auth in postman
+- get it working with app
+- start working on and connecting everything else
+- add auth to all of the routes (do this as you add it to the frontend)
 - figure out how to add profile stuff to the user
 - start connecting everything
 
 - add auth0 to other app or maybe just keep using it here
+
 
 
 

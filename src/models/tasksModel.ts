@@ -76,5 +76,5 @@ taskSchema.virtual("watchingUsersCount").get(function () {
   return this.watching_users.length;
 });
 
-const Task = (Model<ITask> = mongoose.model<ITask>("Task", taskSchema));
+const Task: Model<ITask> = mongoose.model<ITask>("Task", taskSchema);
 export default Task;

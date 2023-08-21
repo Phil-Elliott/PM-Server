@@ -1,7 +1,10 @@
 import express from "express";
 import * as projectController from "../controllers/projectController";
+import { protect } from "../controllers/authController";
 
 const router = express.Router();
+
+router.use(protect);
 
 router
   .route("/")

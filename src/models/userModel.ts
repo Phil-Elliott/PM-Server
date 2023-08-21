@@ -9,6 +9,7 @@ export interface IUser extends Document {
   role?: "user" | "admin";
   password: string;
   passwordConfirm?: string;
+  avatar?: string;
   passwordChangedAt?: Date;
   passwordResetToken?: string;
   passwordResetExpires?: Date;
@@ -55,6 +56,10 @@ const userSchemaDefinition: mongoose.SchemaDefinition = {
       },
       message: "Passwords are not the same!",
     },
+  },
+  avatar: {
+    type: String,
+    default: "http://localhost:5173/src/assets/avatars/dog.jpg",
   },
   passwordChangedAt: Date,
   passwordResetToken: String,
