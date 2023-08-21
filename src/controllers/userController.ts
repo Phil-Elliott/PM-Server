@@ -35,6 +35,7 @@ const filterObj = (
 
 export const updateMe = catchAsync(
   async (req: CustomRequest, res: Response, next: NextFunction) => {
+    // Preventing password updates through this route
     if (req.body.password || req.body.passwordConfirm) {
       return next(
         new AppError(
@@ -44,7 +45,17 @@ export const updateMe = catchAsync(
       );
     }
 
-    const filteredBody = filterObj(req.body, "name", "email");
+    // Create a new object with only the fields we want to allow updates for
+    const fieldsToUpdate = {
+      email: req.body.email,
+      name: req.body.name,
+      avatar: req.body.avatar,
+    };
+
+    // Filter out undefined fields to prevent accidental overwrite with undefined
+    const filteredBody = Object.fromEntries(
+      Object.entries(fieldsToUpdate).filter(([_, value]) => value !== undefined)
+    );
 
     const updatedUser = await User.findByIdAndUpdate(
       req.user?.id,
@@ -54,6 +65,10 @@ export const updateMe = catchAsync(
         runValidators: true,
       }
     );
+
+    if (!updatedUser) {
+      return next(new AppError("Error updating user details", 400));
+    }
 
     res.status(200).json({
       status: "success",

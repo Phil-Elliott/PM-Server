@@ -118,8 +118,6 @@ export const protect = catchAsync(
       token = req.cookies.jwt;
     }
 
-    console.log(token, "token");
-
     if (!token) {
       return next(
         new AppError("You are not logged in! Please log in to get access.", 401)
@@ -132,11 +130,7 @@ export const protect = catchAsync(
       return next(new AppError("Invalid token", 401));
     }
 
-    console.log(decoded, "decoded");
-
     const freshUser = await User.findById(decoded.id);
-
-    console.log(freshUser, "freshUser");
 
     if (!freshUser || freshUser.changedPasswordAfter(decoded.iat)) {
       return next(new AppError("Token is invalid or has expired", 401));
