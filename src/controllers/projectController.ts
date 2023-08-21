@@ -37,7 +37,30 @@ export const createProject = catchAsync(
   }
 );
 
-export const getAllProjects = factory.getAll(Project as Model<IProject>);
+export const getAllProjects = catchAsync(
+  async (req: any, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return next(
+        new AppError("You need to be logged in to get projects", 401)
+      );
+    }
+
+    // Filter projects where user is part of it
+    const filter = { users: req.user._id };
+
+    // Retrieve only the titles and backgrounds
+    const projects = await Project.find(filter).select("title background");
+
+    res.status(200).json({
+      status: "success",
+      results: projects.length,
+      data: {
+        data: projects,
+      },
+    });
+  }
+);
+
 export const getProject = factory.getOne(Project as Model<IProject>);
 export const updateProject = factory.updateOne(Project as Model<IProject>);
 export const deleteProject = factory.deleteOne(Project as Model<IProject>);
