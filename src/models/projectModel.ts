@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
+import Section from "./sectionsModel";
 
 export interface IProject extends Document {
   title: string;
@@ -58,6 +59,19 @@ const projectSchema = new Schema({
     },
   ],
 });
+
+projectSchema.pre(
+  "deleteOne",
+  { document: true, query: false },
+  async function (next) {
+    const project = this;
+
+    // Delete sections associated with the project
+    await Section.deleteMany({ project: project._id });
+
+    next();
+  }
+);
 
 const Project: Model<IProject> = mongoose.model<IProject>(
   "Project",

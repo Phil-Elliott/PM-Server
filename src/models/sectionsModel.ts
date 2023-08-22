@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
+import Task from "./tasksModel";
 
 export interface ISection extends Document {
   title: string;
@@ -36,6 +37,19 @@ const sectionSchema: Schema = new Schema({
     },
   ],
 });
+
+sectionSchema.pre(
+  "deleteOne",
+  { document: true, query: false },
+  async function (next) {
+    const section = this;
+
+    // Delete tasks associated with this section
+    await Task.deleteMany({ section: section._id });
+
+    next();
+  }
+);
 
 const Section: Model<ISection> = mongoose.model<ISection>(
   "Section",

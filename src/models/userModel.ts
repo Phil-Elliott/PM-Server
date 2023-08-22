@@ -2,6 +2,8 @@ import mongoose, { Document, Model, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import validator from "validator";
+import Project from "./projectModel";
+import Comment from "./commentsModel";
 
 export interface IUser extends Document {
   name: string;
@@ -118,6 +120,22 @@ userSchema.methods.createPasswordResetToken = function () {
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
   return resetToken;
 };
+
+userSchema.pre(
+  "deleteOne",
+  { document: true, query: false },
+  async function (next) {
+    const user = this;
+
+    // Delete projects associated with the user
+    await Project.deleteMany({ users: user._id });
+
+    // Delete comments associated with the user
+    await Comment.deleteMany({ users_permissions_user: user._id });
+
+    next();
+  }
+);
 
 const User = mongoose.model<IUser, IUserModel>("User", userSchema);
 

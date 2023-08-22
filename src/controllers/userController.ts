@@ -81,7 +81,19 @@ export const updateMe = catchAsync(
 
 export const deleteMe = catchAsync(
   async (req: CustomRequest, res: Response, next: NextFunction) => {
-    await User.findByIdAndUpdate(req.user?.id, { active: false });
+    // Find the user by ID
+    const user = await User.findById(req.user?.id);
+
+    // Check if the user was found
+    if (!user) {
+      return next(new AppError("No user found with that ID", 404));
+    }
+
+    // Delete the user (this will trigger the deleteOne middleware)
+    await user.deleteOne();
+
+    // If using JWTs, consider blacklisting the current token
+    // or if using sessions, destroy the session here.
 
     res.status(204).json({
       status: "success",
