@@ -92,8 +92,8 @@ export const deleteMe = catchAsync(
     // Delete the user (this will trigger the deleteOne middleware)
     await user.deleteOne();
 
-    // If using JWTs, consider blacklisting the current token
-    // or if using sessions, destroy the session here.
+    // clear the cookie
+    res.clearCookie("jwt");
 
     res.status(204).json({
       status: "success",
