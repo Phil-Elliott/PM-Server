@@ -61,6 +61,24 @@ export const getAllProjects = catchAsync(
   }
 );
 
-export const getProject = factory.getOne(Project as Model<IProject>);
+export const getProject = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const project = await Project.findById(req.params.id)
+      .populate("ordered_sections")
+      .populate("users");
+
+    if (!project) {
+      return next(new AppError("No project found with that ID", 404));
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        project,
+      },
+    });
+  }
+);
+
 export const updateProject = factory.updateOne(Project as Model<IProject>);
 export const deleteProject = factory.deleteOne(Project as Model<IProject>);
