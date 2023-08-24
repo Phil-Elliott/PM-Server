@@ -17,4 +17,8 @@ router
   .patch(projectController.updateProject) // Update a project by ID
   .delete(projectController.deleteProject); // Delete a project by ID
 
+router
+  .route("/:id/ordered-sections")
+  .patch(projectController.updateSectionOrder); // Update section order of a project by ID
+
 export default router;

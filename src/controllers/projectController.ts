@@ -80,5 +80,45 @@ export const getProject = catchAsync(
   }
 );
 
+export const updateSectionOrder = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const projectId = req.params.id;
+    const { ordered_sections } = req.body;
+
+    if (!ordered_sections || !Array.isArray(ordered_sections)) {
+      return next(
+        new AppError("Ordered sections are required and must be an array.", 400)
+      );
+    }
+
+    try {
+      const project = await Project.findByIdAndUpdate(
+        projectId,
+        {
+          ordered_sections,
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+
+      if (!project) {
+        return next(new AppError("No project found with that ID", 404));
+      }
+
+      res.status(200).json({
+        status: "success",
+        data: {
+          project,
+        },
+      });
+    } catch (error) {
+      console.error("Error in update operation:", error);
+      return next(new AppError("Error updating project.", 500));
+    }
+  }
+);
+
 export const updateProject = factory.updateOne(Project as Model<IProject>);
 export const deleteProject = factory.deleteOne(Project as Model<IProject>);
