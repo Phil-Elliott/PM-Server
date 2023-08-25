@@ -44,7 +44,7 @@ const projectSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Comment",
     },
-  ],
+  ], 
   users: [
     {
       type: Schema.Types.ObjectId,

@@ -71,7 +71,7 @@ export function createOne<T extends Document>(Model: Model<T>) {
         data: {
           data: newDoc,
         },
-      });
+      }); 
     }
   );
 }

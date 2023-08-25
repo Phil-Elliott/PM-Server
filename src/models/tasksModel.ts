@@ -30,7 +30,8 @@ const taskSchema = new Schema({
   },
   priority: {
     type: String,
-    enum: ["low", "medium", "high"], // you can adjust this enum as per your priority values
+    enum: ["low", "medium", "high"],
+    default: "medium",
   },
   due: Date,
   project: {

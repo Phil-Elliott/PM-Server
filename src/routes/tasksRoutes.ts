@@ -16,4 +16,6 @@ router
   .patch(taskController.updateTask)
   .delete(taskController.deleteTask);
 
+router.route("/section/:sectionId").get(taskController.getTasksForSection);
+
 export default router;
