@@ -3,7 +3,6 @@ import * as sectionsController from "../controllers/sectionsController";
 
 const router = express.Router();
 
-// Define routes for sections
 router
   .route("/")
   .get(sectionsController.getAllSections) // Get all sections
@@ -14,5 +13,9 @@ router
   .get(sectionsController.getSection) // Get section by ID
   .patch(sectionsController.updateSection) // Update section by ID
   .delete(sectionsController.deleteSection); // Delete section by ID
+
+router
+  .route("/:sectionId/ordered-tasks")
+  .patch(sectionsController.updateOrderedTasks); // Update section's ordered_tasks array
 
 export default router;

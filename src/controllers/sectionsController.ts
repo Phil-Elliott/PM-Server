@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Model } from "mongoose";
+import mongoose, { Model } from "mongoose";
 import Section, { ISection } from "../models/sectionsModel";
 import * as factory from "./handlerFactory";
 import { catchAsync } from "../utils/catchAsync";
@@ -36,6 +36,43 @@ export const createSection = catchAsync(
       status: "success",
       data: {
         section: newSection,
+      },
+    });
+  }
+);
+
+export const updateOrderedTasks = catchAsync(
+  async (req: any, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const { ordered_tasks } = req.body;
+
+    // Ensure ordered_tasks is provided and is an array
+    if (!ordered_tasks || !Array.isArray(ordered_tasks)) {
+      return next(new AppError("Invalid input for ordered tasks.", 400));
+    }
+
+    // Update the section's ordered_tasks array
+    const updatedSection = await Section.findByIdAndUpdate(
+      id,
+      {
+        ordered_tasks: ordered_tasks.map(
+          (taskId) => new mongoose.Types.ObjectId(taskId)
+        ),
+      },
+      {
+        new: true, // This option ensures the updated document is returned
+        runValidators: true, // Ensure the update respects model validation
+      }
+    );
+
+    if (!updatedSection) {
+      return next(new AppError("No section found with that ID.", 404));
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        section: updatedSection,
       },
     });
   }
