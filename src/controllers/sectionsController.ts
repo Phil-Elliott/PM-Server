@@ -43,8 +43,11 @@ export const createSection = catchAsync(
 
 export const updateOrderedTasks = catchAsync(
   async (req: any, res: Response, next: NextFunction) => {
-    const { id } = req.params;
+    const { sectionId } = req.params;
     const { ordered_tasks } = req.body;
+
+    console.log("id", sectionId);
+    console.log("ordered_tasks", ordered_tasks);
 
     // Ensure ordered_tasks is provided and is an array
     if (!ordered_tasks || !Array.isArray(ordered_tasks)) {
@@ -53,7 +56,7 @@ export const updateOrderedTasks = catchAsync(
 
     // Update the section's ordered_tasks array
     const updatedSection = await Section.findByIdAndUpdate(
-      id,
+      sectionId,
       {
         ordered_tasks: ordered_tasks.map(
           (taskId) => new mongoose.Types.ObjectId(taskId)

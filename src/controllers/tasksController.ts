@@ -51,11 +51,15 @@ export const getTasksForSection = catchAsync(
       return next(new AppError("Section ID is required to fetch tasks.", 400));
     }
 
-    // 2. Fetch tasks
-    const tasks = await Task.find({ section: sectionId });
+    // 2. Fetch the section and populate the ordered_tasks field
+    const section = await Section.findById(sectionId).populate("ordered_tasks");
+
+    if (!section) {
+      return next(new AppError("No section found with the given ID.", 404));
+    }
 
     // 3. Response
-    if (!tasks) {
+    if (!section.ordered_tasks || section.ordered_tasks.length === 0) {
       return next(
         new AppError("No tasks found for the given section ID.", 404)
       );
@@ -63,9 +67,9 @@ export const getTasksForSection = catchAsync(
 
     res.status(200).json({
       status: "success",
-      results: tasks.length,
+      results: section.ordered_tasks.length,
       data: {
-        tasks: tasks,
+        tasks: section.ordered_tasks,
       },
     });
   }
