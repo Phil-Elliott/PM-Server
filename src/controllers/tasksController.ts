@@ -60,9 +60,14 @@ export const getTasksForSection = catchAsync(
 
     // 3. Response
     if (!section.ordered_tasks || section.ordered_tasks.length === 0) {
-      return next(
-        new AppError("No tasks found for the given section ID.", 404)
-      );
+      // Returning a 200 status code indicating no tasks were found
+      return res.status(200).json({
+        status: "success",
+        message: "No tasks found for the given section ID.",
+        data: {
+          tasks: [],
+        },
+      });
     }
 
     res.status(200).json({
@@ -75,7 +80,32 @@ export const getTasksForSection = catchAsync(
   }
 );
 
+export const getTask = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const taskId = req.params.id;
+
+    if (!taskId) {
+      return next(new AppError("Task ID is required to fetch the task.", 400));
+    }
+
+    const task = await Task.findById(taskId)
+      .populate("comments")
+      .populate("watching_users")
+      .populate("assigned_users");
+
+    if (!task) {
+      return next(new AppError("No task found with the given ID.", 404));
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        attributes: task,
+      },
+    });
+  }
+);
+
 export const getAllTasks = factory.getAll(Task as Model<ITask>);
-export const getTask = factory.getOne(Task as Model<ITask>);
 export const updateTask = factory.updateOne(Task as Model<ITask>);
 export const deleteTask = factory.deleteOne(Task as Model<ITask>);
