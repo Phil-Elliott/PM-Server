@@ -9,7 +9,7 @@ interface QueryString {
 }
 
 class APIFeatures<T extends Document> {
-  private query: any;
+  public query: any;
   private queryString: QueryString;
 
   constructor(Model: Model<T>, filter: object, queryString: QueryString) {

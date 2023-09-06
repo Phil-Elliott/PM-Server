@@ -11,6 +11,13 @@ import xss from "xss-clean";
 import hpp from "hpp";
 import AppError from "./utils/appError";
 
+import projectRoutes from "./routes/projectRoutes";
+import sectionsRoutes from "./routes/sectionsRoutes";
+import tasksRoutes from "./routes/tasksRoutes";
+import commentsRoutes from "./routes/commentsRoutes";
+import authRoutes from "./routes/authRoutes";
+import userRoutes from "./routes/userRoutes";
+
 dotenv.config({ path: "./config.env" });
 
 const app = express();
@@ -53,13 +60,20 @@ app.use(cookieParser());
 
 // Enable CORS
 const corsOptions = {
-  origin: "http://localhost:3001",
+  origin: "http://localhost:5173",
   credentials: true,
 };
 
 app.use(cors(corsOptions));
 
 // ROUTES
+
+app.use("/api/v1/projects", projectRoutes);
+app.use("/api/v1/sections", sectionsRoutes);
+app.use("/api/v1/tasks", tasksRoutes);
+app.use("/api/v1/comments", commentsRoutes);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/users", userRoutes);
 
 // 404 route
 app.all("*", (req, res, next) => {
@@ -75,3 +89,49 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 export default app;
+
+/*
+user - 0 auth
+projects
+Sections
+Tasks
+Comments
+userData(pic etc)
+
+
+- try using auth in postman
+- get it working with app
+- start working on and connecting everything else
+- add auth to all of the routes (do this as you add it to the frontend)
+- figure out how to add profile stuff to the user
+- start connecting everything
+
+- add auth0 to other app or maybe just keep using it here
+
+
+
+
+
+
+
+
+import { auth, requiredScopes } from "express-oauth2-jwt-bearer";
+
+
+// Authorization middleware setup
+const checkJwt = auth({
+  audience: process.env.AUTH0_AUDIENCE,
+  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+});
+
+const checkScopes = requiredScopes("read:messages");
+
+app.get("/api/private-scoped", checkJwt, checkScopes, (req, res) => {
+  res.json({
+    message:
+      "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this.",
+  });
+});
+
+
+*/

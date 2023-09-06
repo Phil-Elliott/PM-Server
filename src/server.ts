@@ -28,6 +28,7 @@ mongoose
   });
 
 const PORT: number = +process.env.PORT! || 3000;
+
 const server = app.listen(PORT, (error?: any) => {
   if (error) {
     console.error(`[server]: Error starting server: ${error.message}`);
