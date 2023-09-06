@@ -9,13 +9,11 @@ router
   .post(sectionsController.createSection); // Create a new section
 
 router
-  .route("/:sectionId")
+  .route("/:id")
   .get(sectionsController.getSection) // Get section by ID
   .patch(sectionsController.updateSection) // Update section by ID
   .delete(sectionsController.deleteSection); // Delete section by ID
 
-router
-  .route("/:sectionId/ordered-tasks")
-  .patch(sectionsController.updateOrderedTasks); // Update section's ordered_tasks array
+router.route("/:id/ordered-tasks").patch(sectionsController.updateOrderedTasks); // Update section's ordered_tasks array
 
 export default router;

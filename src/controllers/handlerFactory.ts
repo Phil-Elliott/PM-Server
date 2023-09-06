@@ -42,6 +42,7 @@ export function deleteOne<T extends Document>(Model: Model<T>) {
 export function updateOne<T extends Document>(Model: Model<T>) {
   return catchAsync(
     async (req: CustomRequest, res: Response, next: NextFunction) => {
+      // console.log(req.params.id, req.body, "updateOne");
       const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,
@@ -71,7 +72,7 @@ export function createOne<T extends Document>(Model: Model<T>) {
         data: {
           data: newDoc,
         },
-      }); 
+      });
     }
   );
 }
