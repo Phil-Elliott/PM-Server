@@ -89,7 +89,14 @@ export const getTask = catchAsync(
     }
 
     const task = await Task.findById(taskId)
-      .populate("comments")
+      .populate({
+        path: "comments",
+        model: "Comment",
+        populate: {
+          path: "users_permissions_user",
+          model: "User",
+        },
+      })
       .populate("watching_users")
       .populate("assigned_users");
 
