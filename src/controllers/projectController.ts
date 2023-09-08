@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Model } from "mongoose";
+import mongoose, { Model } from "mongoose";
 import { catchAsync } from "../utils/catchAsync";
 import * as factory from "./handlerFactory";
 import Project, { IProject } from "../models/projectModel";
@@ -117,6 +117,39 @@ export const updateSectionOrder = catchAsync(
       console.error("Error in update operation:", error);
       return next(new AppError("Error updating project.", 500));
     }
+  }
+);
+
+export const addUserToProject = catchAsync(
+  async (req: any, res: Response, next: NextFunction) => {
+    // Fetch the project by its ID
+    const project = await Project.findById(req.params.id);
+
+    // Validate that project exists
+    if (!project) {
+      return next(new AppError("No project found with that ID", 404));
+    }
+
+    // Fetch the user ID
+    const userId = req.body.userId;
+
+    // Validate that userId is provided
+    if (!userId) {
+      return next(new AppError("User ID must be provided", 400));
+    }
+
+    // Add the user ID to the project's users array
+    project.users.push(userId);
+
+    // Save the updated project
+    await project.save();
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        project,
+      },
+    });
   }
 );
 

@@ -21,4 +21,6 @@ router
   .route("/:id/ordered-sections")
   .patch(projectController.updateSectionOrder); // Update section order of a project by ID
 
+router.route("/:id/add-user").patch(projectController.addUserToProject); // Add a user to a project by ID
+
 export default router;

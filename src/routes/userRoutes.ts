@@ -7,6 +7,7 @@ import {
   updateMe,
   deleteMe,
   getMe,
+  getUserByEmail,
 } from "../controllers/userController";
 import { protect, restrictTo } from "../controllers/authController";
 
@@ -19,6 +20,8 @@ router.get("/me", getMe, getUserById);
 router.route("/updateMe").patch(updateMe);
 
 router.route("/deleteMe").delete(deleteMe);
+
+router.get("/getUserByEmail/:email", getUserByEmail);
 
 router.use(restrictTo("admin"));
 
