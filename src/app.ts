@@ -22,6 +22,9 @@ dotenv.config({ path: "./config.env" });
 
 const app = express();
 
+// Trust first proxy
+app.set("trust proxy", 1);
+
 // Global middleware
 
 // Development logging
