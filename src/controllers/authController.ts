@@ -19,6 +19,7 @@ interface CookieOptions {
   expires: Date;
   httpOnly: true;
   secure?: boolean;
+  sameSite?: "none";
 }
 
 interface JwtPayload {
@@ -45,6 +46,8 @@ const createSendToken = (user: any, statusCode: number, res: Response) => {
         parseInt(process.env.JWT_COOKIE_EXPIRES_IN!) * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
+    secure: true,
+    sameSite: "none",
   };
 
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
