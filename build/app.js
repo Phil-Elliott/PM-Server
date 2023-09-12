@@ -22,6 +22,8 @@ const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 dotenv_1.default.config({ path: "./config.env" });
 const app = (0, express_1.default)();
+// Trust first proxy
+app.set("trust proxy", 1);
 // Global middleware
 // Development logging
 if (process.env.NODE_ENV === "development") {
