@@ -113,7 +113,42 @@ export const getMe = catchAsync(
   }
 );
 
-// Assuming factory methods are correctly typed, these remain unchanged.
+export const getUserByEmail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Get the email from the request parameters
+    const email = req.params.email;
+
+    if (!email) {
+      return next(new AppError("Email is required to fetch the user.", 400));
+    }
+
+    // Find the user by email
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return next(new AppError("No user found with the given email.", 404));
+    }
+
+    // Send back the user details
+    res.status(200).json({
+      status: "success",
+      data: {
+        id: user._id,
+        name: user.name,
+        avatar: user.avatar,
+      },
+    });
+  } catch (err) {
+    return next(
+      new AppError("An error occurred while fetching the user.", 500)
+    );
+  }
+};
+
 export const getAllUsers = factory.getAll(User as Model<IUser>);
 export const getUserById = factory.getOne(User as Model<IUser>);
 export const updateUser = factory.updateOne(User as Model<IUser>);

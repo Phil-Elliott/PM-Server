@@ -91,6 +91,13 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 export default app;
 
 /*
+
+- Finish connecting everything
+- Clean stuff up
+- Have cascade delete for everything
+
+
+
 user - 0 auth
 projects
 Sections

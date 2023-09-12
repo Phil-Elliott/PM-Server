@@ -17,19 +17,24 @@ const commentSchema = new Schema({
   },
   task: {
     type: Schema.ObjectId,
-    ref: "Task", // Make sure this string matches your task model name
+    ref: "Task",
     required: [true, "Comment must belong to a task."],
   },
   project: {
     type: Schema.ObjectId,
-    ref: "Project", // Make sure this string matches your project model name
+    ref: "Project",
     required: [true, "Comment must belong to a project."],
   },
   users_permissions_user: {
     type: Schema.ObjectId,
-    ref: "User", // Make sure this string matches your user model name
+    ref: "User",
     required: [true, "Comment must belong to a user."],
   },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
+  publishedAt: Date,
 });
 
 const Comment: Model<IComment> = mongoose.model<IComment>(
