@@ -2,11 +2,10 @@
   "name": "pm-server",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "main": "server.ts",
   "scripts": {
     "start": "nodemon --exec ts-node src/server.ts",
-    "start:prod": "node src/server.ts",
+    "start:prod": "node dist/server.js",
     "build": "tsc"
   },
   "author": "",
