@@ -89,10 +89,15 @@ export const deleteMe = catchAsync(
       return next(new AppError("No user found with that ID", 404));
     }
 
+    // Check if it's the demo account
+    if (user.email === "user@gmail.com") {
+      return next(new AppError("Demo account cannot be deleted", 400));
+    }
+
     // Delete the user (this will trigger the deleteOne middleware)
     await user.deleteOne();
 
-    // clear the cookie
+    // Clear the cookie
     res.clearCookie("jwt");
 
     res.status(204).json({
