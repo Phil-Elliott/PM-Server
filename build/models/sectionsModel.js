@@ -56,7 +56,6 @@ const sectionSchema = new mongoose_1.Schema({
     ],
     order: {
         type: Number,
-        required: true,
     },
     ordered_tasks: [
         {

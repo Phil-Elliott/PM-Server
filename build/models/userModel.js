@@ -76,7 +76,7 @@ const userSchemaDefinition = {
     },
     avatar: {
         type: String,
-        default: "http://localhost:5173/src/assets/avatars/dog.jpg",
+        default: "",
     },
     passwordChangedAt: Date,
     passwordResetToken: String,

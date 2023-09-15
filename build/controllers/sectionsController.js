@@ -72,8 +72,6 @@ exports.createSection = (0, catchAsync_1.catchAsync)((req, res, next) => __await
 exports.updateOrderedTasks = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const { ordered_tasks } = req.body;
-    console.log("id", id);
-    console.log("ordered_tasks", ordered_tasks);
     // Ensure ordered_tasks is provided and is an array
     if (!ordered_tasks || !Array.isArray(ordered_tasks)) {
         return next(new appError_1.default("Invalid input for ordered tasks.", 400));
@@ -83,7 +81,7 @@ exports.updateOrderedTasks = (0, catchAsync_1.catchAsync)((req, res, next) => __
         ordered_tasks: ordered_tasks.map((taskId) => new mongoose_1.default.Types.ObjectId(taskId)),
     }, {
         new: true,
-        runValidators: true, // Ensure the update respects model validation
+        runValidators: true,
     });
     if (!updatedSection) {
         return next(new appError_1.default("No section found with that ID.", 404));

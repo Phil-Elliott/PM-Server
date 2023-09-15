@@ -46,9 +46,6 @@ export const updateOrderedTasks = catchAsync(
     const { id } = req.params;
     const { ordered_tasks } = req.body;
 
-    console.log("id", id);
-    console.log("ordered_tasks", ordered_tasks);
-
     // Ensure ordered_tasks is provided and is an array
     if (!ordered_tasks || !Array.isArray(ordered_tasks)) {
       return next(new AppError("Invalid input for ordered tasks.", 400));
@@ -63,8 +60,8 @@ export const updateOrderedTasks = catchAsync(
         ),
       },
       {
-        new: true, // This option ensures the updated document is returned
-        runValidators: true, // Ensure the update respects model validation
+        new: true,
+        runValidators: true,
       }
     );
 

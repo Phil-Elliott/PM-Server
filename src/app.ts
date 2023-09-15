@@ -63,7 +63,8 @@ app.use(cookieParser());
 
 // Enable CORS
 const corsOptions = {
-  origin: "https://timely-lollipop-f90b7b.netlify.app",
+  // origin: "https://timely-lollipop-f90b7b.netlify.app",
+  origin: "http://localhost:5173",
   credentials: true,
 };
 
