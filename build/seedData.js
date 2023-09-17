@@ -73,7 +73,7 @@ const seedData = () => __awaiter(void 0, void 0, void 0, function* () {
                     "6503bc5cb6f88a7b9543ae49",
                     "6503bc11b6f88a7b9543ae37",
                 ],
-                background: "https://timely-lollipop-f90b7b.netlify.app/assets/flowers.8b253557.jpg",
+                background: "https://res.cloudinary.com/djdxd5akb/image/upload/v1694903633/PM-App/backgrounds/scenicNight_gouxdc.jpg",
             },
             {
                 title: "Product Launch",
@@ -83,7 +83,7 @@ const seedData = () => __awaiter(void 0, void 0, void 0, function* () {
                     "6503bc5cb6f88a7b9543ae49",
                     "6503bc11b6f88a7b9543ae37",
                 ],
-                background: "https://timely-lollipop-f90b7b.netlify.app/assets/mountains.c9ac7a2f.jpg",
+                background: "https://res.cloudinary.com/djdxd5akb/image/upload/v1694903633/PM-App/backgrounds/nightSky_bhcwuc.jpg",
             },
             {
                 title: "Employee Onboarding",
@@ -93,7 +93,7 @@ const seedData = () => __awaiter(void 0, void 0, void 0, function* () {
                     "6503bc5cb6f88a7b9543ae49",
                     "6503bc11b6f88a7b9543ae37",
                 ],
-                background: "https://timely-lollipop-f90b7b.netlify.app/assets/nightSky.9a6aed7c.jpg",
+                background: "https://res.cloudinary.com/djdxd5akb/image/upload/v1694903632/PM-App/backgrounds/mountains_iew4p2.jpg",
             },
         ];
         for (const pInfo of projectInfo) {
@@ -147,7 +147,9 @@ const seedData = () => __awaiter(void 0, void 0, void 0, function* () {
                             description: "Estimate time and resources needed for the project.",
                             priority: "Normal",
                             due: new Date("2023-10-31"),
-                            assigned_users: [demoUser._id, "6503bc37b6f88a7b9543ae40"],
+                            assigned_users: [
+                                new mongoose_1.default.Types.ObjectId("6503bc37b6f88a7b9543ae40"),
+                            ],
                         },
                         {
                             title: "Tech Stack Selection",
@@ -229,6 +231,8 @@ const seedData = () => __awaiter(void 0, void 0, void 0, function* () {
                             // due: new Date("2024-07-23"),
                             assigned_users: [
                                 new mongoose_1.default.Types.ObjectId("6503bc5cb6f88a7b9543ae49"),
+                                new mongoose_1.default.Types.ObjectId("6503bc11b6f88a7b9543ae37"),
+                                new mongoose_1.default.Types.ObjectId("6503bc37b6f88a7b9543ae40"),
                             ],
                         },
                         {

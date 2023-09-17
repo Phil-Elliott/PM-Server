@@ -28,7 +28,6 @@ const sectionSchema: Schema = new Schema({
   ],
   order: {
     type: Number,
-    required: true,
   },
   ordered_tasks: [
     {

@@ -5,6 +5,7 @@ export interface IComment extends Document {
   task: mongoose.Types.ObjectId;
   project: mongoose.Types.ObjectId;
   users_permissions_user: mongoose.Types.ObjectId;
+  createdAt?: Date;
 }
 
 const commentSchema = new Schema({
